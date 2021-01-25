@@ -1,36 +1,46 @@
 import { createContext, useEffect, useState } from "react";
-
+import { sendColor } from "../SocketClient";
 import React from "react";
 
 export const ColorContext = createContext();
 
 export const ColorProvider = ({ children }) => {
-	const [selectedColor, setSelectedColor] = useState(null);
+	const [color, setColor] = useState("");
 	const [bgColor, setBgColor] = useState();
 	const [name, setName] = useState();
+	const [socketColor, setSocketColor] = useState("");
+	const [socketName, setSocketName] = useState("");
 
 	const colorChangeHandler = (e) => {
 		setBgColor(e.target.value);
-		console.log("bgColor :", bgColor);
-	};
-
-	const submitChangesHandler = (selectedColor) => {
-		setSelectedColor(bgColor);
-		console.log("selectedColor :", selectedColor);
 	};
 
 	useEffect(() => {
-		setBgColor(selectedColor === null ? "#ffffff" : selectedColor);
-	}, [selectedColor]);
+		setBgColor(color === "" ? "#ffffff" : color);
+	}, []);
+
+	const submitChangesHandler = () => {
+		setSocketName("");
+		setColor(bgColor);
+		sendColor(bgColor, name);
+	};
+
+	useEffect(() => {
+		setBgColor(socketColor);
+	}, [socketColor]);
 
 	const values = {
-		selectedColor,
-		setSelectedColor,
+		color,
+		setColor,
 		bgColor,
 		colorChangeHandler,
 		submitChangesHandler,
 		name,
 		setName,
+		socketColor,
+		setSocketColor,
+		socketName,
+		setSocketName,
 	};
 
 	return (

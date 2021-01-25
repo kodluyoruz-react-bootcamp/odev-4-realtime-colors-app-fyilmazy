@@ -3,16 +3,13 @@ import { useContext, useEffect } from "react";
 import ColorContext from "../../context/ColorContext";
 
 function Container(props) {
-	const { selectedColor, setName } = useContext(ColorContext);
+	const { color, bgColor, setName } = useContext(ColorContext);
 
 	useEffect(() => {
 		setName(prompt("Enter your name please"));
 	}, []);
 	return (
-		<div
-			className={styles.container}
-			style={{ backgroundColor: selectedColor }}
-		>
+		<div className={styles.container} style={{ backgroundColor: bgColor }}>
 			{props.children}
 		</div>
 	);

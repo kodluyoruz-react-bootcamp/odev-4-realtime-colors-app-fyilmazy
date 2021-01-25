@@ -1,13 +1,14 @@
 import styles from "./ColorChanger.module.css";
 import { useContext } from "react";
 import ColorContext from "../../context/ColorContext";
+import ColorInformation from "../ColorInformation";
 
 function ColorChanger() {
 	const {
 		colorChangeHandler,
 		submitChangesHandler,
-		selectedColor,
-		name,
+		color,
+		socketName,
 	} = useContext(ColorContext);
 	return (
 		<div>
@@ -21,13 +22,16 @@ function ColorChanger() {
 				</label>
 			</form>
 			<button className={styles.button} onClick={submitChangesHandler}>
-				Send Changes
+				Apply Changes
 			</button>
-			<h3>
-				{selectedColor === null
-					? ""
-					: `${name} changed color to ${selectedColor}`}
-			</h3>
+			<div>{socketName === "" ? "" : <ColorInformation />}</div>
+			<div>
+				<h3>
+					{socketName !== "" || color === ""
+						? ""
+						: `You changed color to ${color}`}
+				</h3>
+			</div>
 		</div>
 	);
 }
