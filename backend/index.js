@@ -1,6 +1,7 @@
 const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+let port = process.env.PORT || 3000;
 
 const Changes = require("./lib/Changes");
 
@@ -14,7 +15,6 @@ io.on("connection", (socket) => {
 	//client emit
 	Changes.colorAndName((data) => {
 		if (data) {
-			console.log("backend data: ", data);
 			io.emit("new-data", data);
 		}
 	});
@@ -34,6 +34,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-http.listen(3000, () => {
+http.listen(port, () => {
 	console.log("listening on *:3000");
 });
