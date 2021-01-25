@@ -5,13 +5,25 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ColorChanger from "./components/ColorChanger";
 import "./App.css";
-import { disconnectSocket, initSocket, receiveChanges } from "./SocketClient";
+import {
+	disconnectSocket,
+	initialData,
+	initSocket,
+	receiveChanges,
+} from "./SocketClient";
 
 function App() {
 	const { setSocketColor, setSocketName } = useContext(ColorContext);
 
 	useEffect(() => {
 		initSocket();
+
+		initialData((data) => {
+			setSocketColor(data.color);
+			setSocketName(data.name);
+			console.log("name: ", data.name);
+			console.log("color: ", data.color);
+		}, []);
 
 		receiveChanges((changes) => {
 			setSocketColor(changes[0]);

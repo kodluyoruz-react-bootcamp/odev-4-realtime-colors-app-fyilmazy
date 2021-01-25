@@ -28,3 +28,10 @@ export const receiveChanges = (cb) => {
 		cb(changed);
 	});
 };
+
+export const initialData = (cb) => {
+	socket.on("new-data", (data) => {
+		console.log("data received: ", data);
+		cb(data);
+	});
+};
