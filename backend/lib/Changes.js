@@ -7,33 +7,17 @@ function Changes() {
 module.exports = new Changes();
 
 Changes.prototype.upsert = function (changes) {
-	this.client.hset(
-		"changes",
-		"static",
-		JSON.stringify({
-			changes,
-		}),
-		(err) => {
-			if (err) {
-				console.log(err);
-			}
-		}
-	);
+	console.log("Changes passed to db:", changes);
+	const sendChanges = [changes.color, changes.name];
+	this.client.set("changes", JSON.stringify(sendChanges));
 };
 
-Changes.prototype.colorAndName = function (callback) {
-	let userData = [];
-
-	this.client.hgetall("changes", function (err, colorName) {
+Changes.prototype.getChanges = function (callback) {
+	this.client.get("changes", function (err, dbData) {
 		if (err) {
-			console.error(err);
-			return callback([]);
+			console.log(err);
 		}
-
-		for (let values in colorName) {
-			userData.push(JSON.parse(colorName[values]));
-		}
-		console.log("userdata", userData[0].changes);
-		return callback(userData[0].changes);
+		console.log("Sent initial data from db: ", dbData);
+		return callback(dbData);
 	});
 };

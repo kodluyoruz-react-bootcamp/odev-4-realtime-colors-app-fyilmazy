@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 let socket;
 
 export const initSocket = () => {
+	// socket = io("http://localhost:3000", {       // for local setup
 	socket = io("https://realtime-color-backend.herokuapp.com/", {
 		transports: ["websocket"],
 	});
@@ -23,7 +24,6 @@ export const sendColor = (color, name) => {
 
 export const receiveChanges = (cb) => {
 	if (!socket) return true;
-
 	socket.on("changes", (changed) => {
 		cb(changed);
 	});
@@ -31,7 +31,6 @@ export const receiveChanges = (cb) => {
 
 export const initialData = (cb) => {
 	socket.on("new-data", (data) => {
-		console.log("data received: ", data);
 		cb(data);
 	});
 };

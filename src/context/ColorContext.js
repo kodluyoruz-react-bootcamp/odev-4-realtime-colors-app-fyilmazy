@@ -16,7 +16,9 @@ export const ColorProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		setBgColor(color === "" ? "#ffffff" : color);
+		if (socketName !== "" && socketColor !== "") {
+			setBgColor(color === "" ? "#ffffff" : color);
+		}
 	}, []);
 
 	const submitChangesHandler = () => {

@@ -19,10 +19,8 @@ function App() {
 		initSocket();
 
 		initialData((data) => {
-			setSocketColor(data.color);
-			setSocketName(data.name);
-			console.log("name: ", data.name);
-			console.log("color: ", data.color);
+			setSocketColor(data[0]);
+			setSocketName(data[1]);
 		}, []);
 
 		receiveChanges((changes) => {
